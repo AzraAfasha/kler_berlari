@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="en" onkeypress="jump()">
+<heads>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale-1.0">
+  <link rel="stylesheet" href="styles.css"/>
+  <audio id="jumpSound">
+    <source src="./audio/wa.mp3" type="audio/mpeg">
+  </audio>
+  <audio id="collisionSound">
+    <source src="./audio/wawawa.mp3" type="audio/mpeg">
+  </audio>
+  <audio id="scoreSound">
+    <source src="./audio/kenkler.mp3" type="audio/mpeg">
+  </audio>
+  
+  <title>Kler Lari</title>
+</head>
+<div class="header">
+  <h1>Kler Berlari</h1>
+</div>
+<body>
+  <div class="box" id="box">
+    <div class="score" id="score">Score : 0</div>
+    <img src="gambar/kler1.gif" alt="" id="kler">
+    <img src="gambar/gebymon.gif" alt="" id="kaktus">
+    <div class="roadContainer" id="roadContainer">
+      <img src="gambar/road.png">
+    </div>
+  </div>
+</body>
+<div id="footer">
+        <img id="geby-kuru" loading="lazy" src="gambar/kler1.gif" alt="herta" />
+        <div id="footer-text">
+            <p>Kler Kuru Kuru Nya Pinjem yah bang :))</p>
+            <p>
+                <a href="https://twitter.com/FirmanAcker" target="_blank"><iconify-icon icon="mdi:twitter"
+                        id="twitter-footer-icon" class="footer-icon"></iconify-icon><span
+                        class="footer-icon-text">@FirmanAcker</span></a>
+            </p>
+            <p id="footer-repository-text">
+                Numpang Naruh disini yh bang hehe
+            </p>
+            <p>
+                <a href="https://www.youtube.com/@AfashaChannel" target="_blank"><iconify-icon icon="mdi:youtube"
+                        id="sosmed-footer-icon" class="footer-icon"></iconify-icon><span
+                        class="footer-icon-text">AFaSha Relvolt</span></a>
+            </p>
+            <p>
+                <a href="https://twitter.com/Azra_Relvolt" target="_blank"><iconify-icon icon="mdi:twitter"
+                        id="sosmed-footer-icon" class="footer-icon"></iconify-icon><span
+                        class="footer-icon-text">@Azra_relvolt</span></a>
+            </p>
+            
+        </div>
+    </div>
+<script>
+  const char = document.getElementById("kler")
+  const kaktus = document.getElementById("kaktus")
+  const playerScore = document.getElementById("score")
+
+  let score = 0;
+  let interval = null;
+
+  let jumlahScore = ()=>{
+      score++;
+      playerScore.innerHTML = score;
+
+      if (score % 1000 === 0) {
+    const scoreSound = document.getElementById("scoreSound");
+    scoreSound.currentTime = 0; // Memastikan suara dimulai dari awal setiap kali dipanggil
+    scoreSound.play(); // Memainkan suara saat skor mencapai kelipatan 500
+  }
+  }
+
+  function jump() {
+
+    const jumpSound = document.getElementById("jumpSound");
+    jumpSound.currentTime = 0; // Memastikan suara dimulai dari awal setiap kali dipanggil
+    jumpSound.play();
+
+    if (char.classList != "animate") {
+      char.classList.add("animate");
+    }
+    setTimeout(function () {
+      char.classList.remove("animate");
+    }, 500);
+    let score = 0
+    interval = setInterval(jumlahScore, 100)
+  }
+
+  const ifHitKaktus = setInterval(function(){
+    const charTop = parseInt(window.getComputedStyle(char).getPropertyValue("top"));
+    const kaktusLeft = parseInt(window.getComputedStyle(kaktus).getPropertyValue("left"));
+    if (kaktusLeft < 90 && kaktusLeft > 0 && charTop >= 60) {
+      kaktus.style.animation = "none";
+      kaktus.style.display = "none";
+      clearInterval(interval); // Hentikan penambahan skor saat terjadi tabrakan
+      if (confirm("Kler Kecelakaan")) {
+        window.location.reload();
+      }
+    }
+  }, 10);
+
+  
+
+</script>
+</html>
